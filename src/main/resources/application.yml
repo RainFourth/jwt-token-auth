@@ -1,0 +1,21 @@
+
+security:
+    require-ssl: true
+
+server:
+    port: 8443
+    ssl:
+        key-store: "classpath:keystore.p12"
+        key-store-type: PKCS12
+        key-store-alias: spring
+        key-store-password: spring123
+
+spring:
+    jpa:
+        hibernate:
+            ddl-auto: update
+    datasource:
+        url: "jdbc:mysql://localhost:3336/testdb"
+        username: root
+        password: mysqlroot
+
