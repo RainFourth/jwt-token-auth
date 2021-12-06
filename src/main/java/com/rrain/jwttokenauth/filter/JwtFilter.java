@@ -30,18 +30,17 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = null;
         String userName = null;
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+        if (authorizationHeader!=null && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring(7);
             userName = jwtUtils.extractUsername(token);
         }
 
-        if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (userName!=null && SecurityContextHolder.getContext().getAuthentication()==null) {
 
             UserDetails userDetails = userRepo.findUserByUsername(userName)
-                .orElseThrow(() -> new UsernameNotFoundException("User not present"));
+                .orElseThrow(()->new UsernameNotFoundException("User not present"));
 
             if (jwtUtils.validateToken(token, userDetails)) {
-
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken
@@ -51,5 +50,6 @@ public class JwtFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
+
 }
 
