@@ -15,7 +15,7 @@ import java.util.function.Function;
 
 @CommonsLog
 @Configuration
-public class InitDB {
+public class FillDb {
 
 
 
@@ -53,11 +53,12 @@ public class InitDB {
                 Set.of(new User(
                     "admin",
                     "$2y$12$wbZM9rIYHXQ2JxCYsFuRbOJZxTNFYf2yj9t9uZ/xymlIvVZvIxyEK", // пароль 100
-                    "ADMIN"
+                    "ADMIN",
+                    "admin"
                 )),
                 repo,
                 repo::findUserByUsername,
-                User::getUsername,
+                User::getLogin,
                 User::fullyEq
             );
         };

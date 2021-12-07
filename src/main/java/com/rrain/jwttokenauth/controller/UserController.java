@@ -47,7 +47,7 @@ public class UserController {
     private ResponseEntity<?> me(Principal principal){
         try {
             User user = userRepo.findUserByUsername(principal.getName()).get();
-            return ResponseEntity.ok(Map.of("Username: ", user.getUsername()));
+            return ResponseEntity.ok(Map.of("Username: ", user.getLogin()));
         } catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
