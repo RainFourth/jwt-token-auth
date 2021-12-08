@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -32,8 +33,17 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (authorizationHeader!=null && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring(7);
-            userName = jwtUtils.extractUsername(token);
+        } else {
+            token = UriComponentsBuilder
+                .fromUriString("")
+                .query(httpServletRequest.getQueryString())
+                .build()
+                .getQueryParams()
+                .getFirst("access-token");
         }
+
+        // todo throws exception if expired
+        if (token!=null) userName = jwtUtils.extractUsername(token);
 
         if (userName!=null && SecurityContextHolder.getContext().getAuthentication()==null) {
 

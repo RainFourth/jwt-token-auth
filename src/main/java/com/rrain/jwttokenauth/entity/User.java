@@ -17,15 +17,15 @@ import java.util.Objects;
 @Table(name = "users")
 @Getter @Setter @ToString
 public class User implements UserDetails {
-    @Id private String login;
+    @Id private String username;
     private String password;
     private String role;
     private String name;
 
     public User() {}
 
-    public User(String login, String password, String role, String name) {
-        this.login = login;
+    public User(String username, String password, String role, String name) {
+        this.username = username;
         this.password = password;
         this.role = role;
         this.name = name;
@@ -47,7 +47,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        return username;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class User implements UserDetails {
 
 
     public boolean fullyEq(User other){
-        return Objects.equals(login,other.login) &&
+        return Objects.equals(username,other.username) &&
             Objects.equals(password,other.password) &&
             Objects.equals(role,other.role);
     }

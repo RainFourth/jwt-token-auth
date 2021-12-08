@@ -2,6 +2,7 @@ package com.rrain.jwttokenauth.filter;
 
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +24,13 @@ public class RequestCounterFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         if (servletRequest instanceof HttpServletRequest request){
             int requestCnt = this.requestCnt.getAndIncrement();
+
+            var url = request.getRequestURL();
+            var query = request.getQueryString();
+            if (query!=null) url.append('?').append(query);
+
             log.info(String.format(
-                "Request #%s Path: %s", requestCnt, request.getRequestURI()
+                "Request #%s URL: %s", requestCnt, url
             ));
         }
         filterChain.doFilter(servletRequest, servletResponse);

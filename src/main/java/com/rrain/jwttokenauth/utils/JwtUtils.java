@@ -11,12 +11,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+
+/*
+    https://jwt.io/
+    https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+    https://github.com/jwtk/jjwt
+ */
 @Service
 public class JwtUtils {
     /**
      * Based the secret key it is doing the signing
      */
-    private String secret = "jwt-secret";
+    private final String secret = "jwt-secret";
 
     /**
      * Extracting username from the token
@@ -63,16 +69,20 @@ public class JwtUtils {
      */
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, username);
+        return createToken(claims, username, System.currentTimeMillis() + 1000 * 60 * 60 * 10);
+    }
+    public String generateToken(String username, long exp) {
+        Map<String, Object> claims = new HashMap<>();
+        return createToken(claims, username, exp);
     }
 
 
-    private String createToken(Map<String, Object> claims, String subject) {
+    private String createToken(Map<String, Object> claims, String subject, long exp) {
         return Jwts.builder()
             .setClaims(claims)
             .setSubject(subject)
             .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
+            .setExpiration(new Date(exp))
             .signWith(SignatureAlgorithm.HS256, secret)
             .compact();
     }

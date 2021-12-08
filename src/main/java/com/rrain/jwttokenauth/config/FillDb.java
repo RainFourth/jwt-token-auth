@@ -58,7 +58,7 @@ public class FillDb {
                 )),
                 repo,
                 repo::findUserByUsername,
-                User::getLogin,
+                User::getUsername,
                 User::fullyEq
             );
         };

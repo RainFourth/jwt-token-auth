@@ -22,10 +22,6 @@ public class UserController {
 
 
 
-    @GetMapping("/spring/hello")
-    private String hello(){
-       return "hello spring!";
-    }
 
 
     @PostMapping("/api/v1.0/login")
@@ -47,7 +43,7 @@ public class UserController {
     private ResponseEntity<?> me(Principal principal){
         try {
             User user = userRepo.findUserByUsername(principal.getName()).get();
-            return ResponseEntity.ok(Map.of("Username: ", user.getLogin()));
+            return ResponseEntity.ok(Map.of("username", user.getUsername()));
         } catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
