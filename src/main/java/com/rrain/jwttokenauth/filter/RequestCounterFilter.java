@@ -2,7 +2,6 @@ package com.rrain.jwttokenauth.filter;
 
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
